@@ -1,0 +1,12 @@
+{
+  "name": "pizza-app",
+  "displayName": "pizza-app",
+  "expo": {
+    "name": "pizza-app",
+    "slug": "pizza-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
