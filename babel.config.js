@@ -13,6 +13,7 @@ module.exports = function(api) {
             '@constants': './src/constants',
             '@screens': './src/screens',
             '@assets': './src/assets',
+            '@hooks': './src/hooks',
           }
         }
       ]
