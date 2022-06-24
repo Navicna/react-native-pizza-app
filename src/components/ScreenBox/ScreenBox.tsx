@@ -1,13 +1,14 @@
 import React from "react";
 import { ViewProps } from "react-native";
 import { StatusBar } from "react-native";
-import { StyledView } from "react-native-dev-ui";
+import { StyledView, StyledViewProps } from "react-native-dev-ui";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-interface ScreenBoxProps extends ViewProps {
+type ScreenBoxProps = {
   safeTop?: boolean;
   children: JSX.Element | JSX.Element[];
-}
+} & ViewProps &
+  StyledViewProps;
 
 export function ScreenBox({
   safeTop = true,

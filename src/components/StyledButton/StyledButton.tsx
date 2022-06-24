@@ -1,6 +1,10 @@
 import { getComponentWidth, componentHeight } from "@constants/Metrics";
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import {
+  ActivityIndicator,
+  TouchableOpacity,
+  TouchableOpacityProps,
+} from "react-native";
 import {
   spacingPaddingXs,
   StyledText,
@@ -8,13 +12,15 @@ import {
   StyledViewProps,
 } from "react-native-dev-ui";
 
-interface StyledButtonProps extends StyledViewProps {
+type StyledButtonProps = {
   align?: "center" | "start" | "end";
   variant?: "text" | "default";
   bgColor?: string;
   fontColor?: string;
   children: string;
-}
+  isLoading?: boolean;
+} & TouchableOpacityProps &
+  StyledViewProps;
 
 const alignHelper = {
   center: "center",
@@ -28,6 +34,7 @@ export function StyledButton({
   bgColor = "#E03F50",
   fontColor = "white",
   children,
+  isLoading,
   ...rest
 }: StyledButtonProps) {
   return (
@@ -42,7 +49,11 @@ export function StyledButton({
       p={16}
       {...rest}
     >
-      <StyledText color={fontColor}>{children}</StyledText>
+      {isLoading ? (
+        <ActivityIndicator color={fontColor} />
+      ) : (
+        <StyledText color={fontColor}>{children}</StyledText>
+      )}
     </StyledView>
   );
 }
