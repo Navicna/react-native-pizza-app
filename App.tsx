@@ -3,13 +3,16 @@ import React from "react";
 import { StatusBar, StyleSheet, Text, View } from "react-native";
 import { StyledView, StyledText } from "react-native-dev-ui";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { AuthProvider } from "./src/hooks/auth";
 
 export default function App() {
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle="light-content" />
-      <SignIn />
-    </SafeAreaProvider>
+    <AuthProvider>
+      <SafeAreaProvider>
+        <StatusBar barStyle="light-content" />
+        <SignIn />
+      </SafeAreaProvider>
+    </AuthProvider>
   );
 }
 
