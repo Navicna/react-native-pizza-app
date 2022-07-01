@@ -9,6 +9,7 @@
       "@assets/*": ["./src/assets/*"],
       "@constants/*": ["./src/constants/*"],
       "@hooks/*": ["./src/hooks/*"],
+      "@navigation/*": ["./src/navigation/*"],
     }
   }
 }

@@ -18,9 +18,11 @@ type User = {
 
 type AuthContextData = {
   signIn(email: string, password: string): void;
+  signOut(): void;
   isLoading: boolean;
   user?: User;
   loadUserCredentials(): void;
+  forgotPassword(email: string): void;
 };
 
 export const AuthContext = createContext({} as AuthContextData);
@@ -33,7 +35,6 @@ function AuthProvider({ children }: AuthProviderProps) {
     try {
       setIsLoading(true);
       const credentials = await AsyncStorage.getItem("@UserCredentials");
-      console.log(credentials);
 
       if (credentials) {
         const userData = JSON.parse(credentials);
@@ -78,13 +79,42 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  async function signOut() {
+    try {
+      setIsLoading(true);
+      await auth().signOut();
+      await AsyncStorage.removeItem("@UserCredentials");
+      setUser(undefined);
+    } catch (e) {
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function forgotPassword(email: string) {
+    try {
+      if (!email) return;
+      setIsLoading(true);
+      await auth().sendPasswordResetEmail(email);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   useEffect(() => {
     loadUserCredentials();
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{ signIn, isLoading, user, loadUserCredentials }}
+      value={{
+        signIn,
+        isLoading,
+        user,
+        loadUserCredentials,
+        signOut,
+        forgotPassword,
+      }}
     >
       {children}
     </AuthContext.Provider>

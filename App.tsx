@@ -4,13 +4,14 @@ import { StatusBar, StyleSheet, Text, View } from "react-native";
 import { StyledView, StyledText } from "react-native-dev-ui";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AuthProvider } from "./src/hooks/auth";
+import Navigator from "@navigation/Navigator";
 
 export default function App() {
   return (
     <AuthProvider>
       <SafeAreaProvider>
         <StatusBar barStyle="light-content" />
-        <SignIn />
+        <Navigator />
       </SafeAreaProvider>
     </AuthProvider>
   );
