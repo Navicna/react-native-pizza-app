@@ -15,6 +15,9 @@ module.exports = function(api) {
             '@assets': './src/assets',
             '@hooks': './src/hooks',
             '@navigation': './src/navigation',
+            '@modules': './src/modules',
+            '@context': './src/context',
+            '@utils': './src/utils',
           }
         }
       ]

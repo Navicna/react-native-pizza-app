@@ -4,7 +4,13 @@ import { createContext, useContext, useState, ReactNode } from "react";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
 import { Alert } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import NavigationService from "@navigation/NavigationService";
+import {
+  getStorageItem,
+  removeStoageItem,
+  setStorageItem,
+  USER_CREDENTIALS_KEY,
+} from "@utils/storage";
 
 type AuthProviderProps = {
   children: ReactNode;
@@ -23,6 +29,7 @@ type AuthContextData = {
   user?: User;
   loadUserCredentials(): void;
   forgotPassword(email: string): void;
+  isLogged: boolean;
 };
 
 export const AuthContext = createContext({} as AuthContextData);
@@ -31,14 +38,16 @@ function AuthProvider({ children }: AuthProviderProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<User>();
 
+  const isLogged = !!user;
+
   async function loadUserCredentials() {
     try {
       setIsLoading(true);
-      const credentials = await AsyncStorage.getItem("@UserCredentials");
+      const credentials = await getStorageItem(USER_CREDENTIALS_KEY);
+      console.log({ credentials });
 
       if (credentials) {
-        const userData = JSON.parse(credentials);
-        setUser(userData);
+        setUser(credentials);
       }
     } finally {
       setIsLoading(false);
@@ -67,7 +76,7 @@ function AuthProvider({ children }: AuthProviderProps) {
             isAdm,
           };
 
-          AsyncStorage.setItem("@UserCredentials", JSON.stringify(userData));
+          setStorageItem(USER_CREDENTIALS_KEY, userData);
 
           setUser(userData);
           console.log({ userData });
@@ -83,8 +92,9 @@ function AuthProvider({ children }: AuthProviderProps) {
     try {
       setIsLoading(true);
       await auth().signOut();
-      await AsyncStorage.removeItem("@UserCredentials");
+      removeStoageItem(USER_CREDENTIALS_KEY);
       setUser(undefined);
+      NavigationService.navigate("SignIn");
     } catch (e) {
     } finally {
       setIsLoading(false);
@@ -114,6 +124,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         loadUserCredentials,
         signOut,
         forgotPassword,
+        isLogged,
       }}
     >
       {children}

@@ -10,21 +10,31 @@ import {
   spacingMarginMd,
   spacingMarginXxs,
 } from "react-native-dev-ui";
-import { KeyboardAvoidingView } from "react-native";
+import { ActivityIndicator, KeyboardAvoidingView } from "react-native";
 import { ScreenBox } from "@components/ScreenBox/ScreenBox";
 import { StyledButton } from "@components/StyledButton/StyledButton";
 import { isIos } from "@constants/Metrics";
-import { useAuth } from "@hooks/auth";
+import { useAuth } from "@context/auth";
+import { useEffect } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { signIn, isLoading } = useAuth();
+  const { navigate } = useNavigation();
+
+  const { signIn, isLoading, isLogged } = useAuth();
 
   function handleSignIn() {
     signIn(email, password);
   }
+
+  useEffect(() => {
+    if (isLogged) {
+      navigate("Menu");
+    }
+  }, [isLogged]);
 
   return (
     <KeyboardAvoidingView

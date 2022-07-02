@@ -1,9 +1,8 @@
-import SignIn from "./src/screens/SignIn";
 import React from "react";
-import { StatusBar, StyleSheet, Text, View } from "react-native";
-import { StyledView, StyledText } from "react-native-dev-ui";
+import { StatusBar } from "react-native";
+
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { AuthProvider } from "./src/hooks/auth";
+import { AuthProvider } from "@context/auth";
 import Navigator from "@navigation/Navigator";
 
 export default function App() {
@@ -16,12 +15,3 @@ export default function App() {
     </AuthProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
